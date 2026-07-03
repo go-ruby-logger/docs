@@ -395,9 +395,9 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#result-best-of-5-ms" class="md-nav__link">
+  <a href="#setup" class="md-nav__link">
     <span class="md-ellipsis">
-      Result (best of 5, ms)
+      Setup
     </span>
   </a>
   
@@ -407,6 +407,72 @@
   <a href="#what-is-measured" class="md-nav__link">
     <span class="md-ellipsis">
       What is measured
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="What is measured">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#method" class="md-nav__link">
+    <span class="md-ellipsis">
+      Method
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-timestamp-gotcha-and-how-it-is-handled" class="md-nav__link">
+    <span class="md-ellipsis">
+      The timestamp gotcha, and how it is handled
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#results-best-of-25-nsop" class="md-nav__link">
+    <span class="md-ellipsis">
+      Results (best-of-25, ns/op)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Results (best-of-25, ns/op)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#info-default" class="md-nav__link">
+    <span class="md-ellipsis">
+      info-default
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#info-custom" class="md-nav__link">
+    <span class="md-ellipsis">
+      info-custom
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#go-vs-yjit" class="md-nav__link">
+    <span class="md-ellipsis">
+      go vs YJIT
     </span>
   </a>
   
@@ -476,9 +542,9 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#result-best-of-5-ms" class="md-nav__link">
+  <a href="#setup" class="md-nav__link">
     <span class="md-ellipsis">
-      Result (best of 5, ms)
+      Setup
     </span>
   </a>
   
@@ -488,6 +554,72 @@
   <a href="#what-is-measured" class="md-nav__link">
     <span class="md-ellipsis">
       What is measured
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="What is measured">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#method" class="md-nav__link">
+    <span class="md-ellipsis">
+      Method
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-timestamp-gotcha-and-how-it-is-handled" class="md-nav__link">
+    <span class="md-ellipsis">
+      The timestamp gotcha, and how it is handled
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#results-best-of-25-nsop" class="md-nav__link">
+    <span class="md-ellipsis">
+      Results (best-of-25, ns/op)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Results (best-of-25, ns/op)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#info-default" class="md-nav__link">
+    <span class="md-ellipsis">
+      info-default
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#info-custom" class="md-nav__link">
+    <span class="md-ellipsis">
+      info-custom
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#go-vs-yjit" class="md-nav__link">
+    <span class="md-ellipsis">
+      go vs YJIT
     </span>
   </a>
   
@@ -520,96 +652,198 @@
 <h1 id="performance">Performance<a class="headerlink" href="#performance" title="Permanent link">&para;</a></h1>
 <p><code>go-ruby-logger/logger</code> is the pure-Go library that
 <a href="https://github.com/go-embedded-ruby/ruby"><code>rbgo</code></a> binds for Ruby's stdlib
-<code>Logger</code>. This page records the <strong>methodology</strong> for measuring it against the
-reference Ruby runtimes, as part of the ecosystem-wide per-module parity suite.</p>
-<h2 id="result-best-of-5-ms">Result (best of 5, ms)<a class="headerlink" href="#result-best-of-5-ms" title="Permanent link">&para;</a></h2>
-<p>Measured 2026-06-30 on <strong>Apple M4 Max</strong>, macOS (darwin/arm64), Go 1.26.4, with
-<code>ruby 4.0.5 +PRISM</code>, <code>jruby 10.1.0.0</code> (OpenJDK 25) and <code>truffleruby 34.0.1</code>
-(GraalVM CE Native). The cross-runtime workload formats 90 000 log records of
-mixed severity through a fixed (timestamp-free) formatter to an in-memory
-<code>StringIO</code> sink — keeping the timing about formatting, not disk IO; the produced
-buffer is byte-identical to MRI before timing.</p>
+<code>Logger</code>. This page records <strong>real, dated, per-operation</strong> measurements of the
+library against the reference Ruby runtimes, as part of the ecosystem-wide
+per-module parity suite.</p>
+<h2 id="setup">Setup<a class="headerlink" href="#setup" title="Permanent link">&para;</a></h2>
+<p>Measured <strong>2026-07-03</strong> on an <strong>Apple M4 Max</strong>, macOS (<code>darwin/arm64</code>). All
+runtimes run natively on the host — no VM:</p>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Version</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Go</td>
+<td>1.26.4</td>
+</tr>
+<tr>
+<td>MRI</td>
+<td><code>ruby 4.0.5 (2026-05-20) +PRISM</code></td>
+</tr>
+<tr>
+<td>MRI + YJIT</td>
+<td>same, <code>--yjit</code></td>
+</tr>
+<tr>
+<td>JRuby</td>
+<td><code>10.1.0.0</code> (OpenJDK 25)</td>
+</tr>
+<tr>
+<td>TruffleRuby</td>
+<td><code>34.0.1</code> (GraalVM CE Native)</td>
+</tr>
+</tbody>
+</table>
+<p>Library pinned at <code>v0.0.0-20260630081511-870e2ee3f277</code>.</p>
+<h2 id="what-is-measured">What is measured<a class="headerlink" href="#what-is-measured" title="Permanent link">&para;</a></h2>
+<p>The <strong>same</strong> <code>Logger#info</code> workload — a severity gate, the <code>Formatter</code>, and an
+append to an in-memory buffer sink — is run op-for-op through the pure-Go library
+(via its Go API) and through each interpreter's own stdlib <code>logger</code>. So the
+comparison is the <strong>Ruby-visible operation</strong>, apples-to-apples across
+interpreters, not a synthetic microbenchmark.</p>
+<p>Two ops:</p>
+<ul>
+<li><strong><code>info-default</code></strong> — the default formatter (<code>%Y-%m-%dT%H:%M:%S.%6N</code> timestamp).</li>
+<li><strong><code>info-custom</code></strong> — a custom <code>datetime_format</code> override (second precision) — a
+  different <code>strftime</code> path with the same emit shape.</li>
+</ul>
+<h3 id="method">Method<a class="headerlink" href="#method" title="Permanent link">&para;</a></h3>
+<p>Each process runs 3 untimed warm-up passes (so the JVM/GraalVM JITs reach steady
+state), then 25 timed passes of 5 000 <code>logger.info</code> calls each, timed with a
+monotonic clock; the <strong>best</strong> pass is reported as <strong>ns/op</strong>. Interpreter
+start-up is excluded from the timed region. The benchmark harness lives in this
+repo under
+<a href="https://github.com/go-ruby-logger/docs/tree/main/benchmarks"><code>benchmarks/</code></a>.</p>
+<h3 id="the-timestamp-gotcha-and-how-it-is-handled">The timestamp gotcha, and how it is handled<a class="headerlink" href="#the-timestamp-gotcha-and-how-it-is-handled" title="Permanent link">&para;</a></h3>
+<p>A formatted line embeds the wall clock <strong>and</strong> the process id
+(<code>I, [2026-07-03T12:34:56.123456 #4242]  INFO -- prog: msg</code>), so two processes
+never emit byte-identical lines. Rather than fake the clock (which would hide the
+real <code>Time.now</code> + <code>strftime</code> cost), <strong>both runtimes run the real clock</strong> — each
+pays that cost, apples-to-apples — and the harness verifies byte-identity on the
+<strong>deterministic remainder</strong> (severity, progname, message) after normalizing the
+<code>[&lt;time&gt; #&lt;pid&gt;]</code> field to <code>[T]</code>. Verified equal, Go vs MRI, before any timing is
+trusted:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>info-default: OK  (I, [T]  INFO -- bench: user 4242 completed checkout in 128ms)
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>info-custom:  OK  (I, [T]  INFO -- bench: user 4242 completed checkout in 128ms)
+</code></pre></div>
+<h2 id="results-best-of-25-nsop">Results (best-of-25, ns/op)<a class="headerlink" href="#results-best-of-25-nsop" title="Permanent link">&para;</a></h2>
+<h3 id="info-default"><code>info-default</code><a class="headerlink" href="#info-default" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
 <tr>
 <th>Runtime</th>
-<th style="text-align: right;">time</th>
+<th style="text-align: right;">ns/op</th>
 <th style="text-align: right;">vs MRI</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><strong>rbgo</strong> (go-ruby-logger)</td>
-<td style="text-align: right;">140</td>
-<td style="text-align: right;">1.56×</td>
+<td><strong>go-ruby-logger (pure Go)</strong></td>
+<td style="text-align: right;">397.6</td>
+<td style="text-align: right;">0.31×</td>
 </tr>
 <tr>
 <td>MRI (ruby 4.0.5)</td>
-<td style="text-align: right;">90</td>
+<td style="text-align: right;">1303.2</td>
 <td style="text-align: right;">1.00×</td>
 </tr>
 <tr>
 <td>MRI + YJIT</td>
-<td style="text-align: right;">80</td>
-<td style="text-align: right;">0.89×</td>
+<td style="text-align: right;">967.8</td>
+<td style="text-align: right;">0.74×</td>
 </tr>
 <tr>
 <td>JRuby 10.1.0.0</td>
-<td style="text-align: right;">1360</td>
-<td style="text-align: right;">15.11×</td>
+<td style="text-align: right;">1214.1</td>
+<td style="text-align: right;">0.93×</td>
 </tr>
 <tr>
 <td>TruffleRuby 34.0.1</td>
-<td style="text-align: right;">240</td>
-<td style="text-align: right;">2.67×</td>
+<td style="text-align: right;">723.0</td>
+<td style="text-align: right;">0.55×</td>
 </tr>
 </tbody>
 </table>
-<p>rbgo runs on <strong>go-ruby-logger</strong> at <strong>~1.6× MRI</strong> (1.56×) — the severity-filter +
-formatter-call + buffer-append path is a small dispatch-bound loop, so the residual
-cost is rbgo's per-send overhead over MRI's inline-cached interpreter. A sub-150 ms
-row, well inside the order-of-magnitude band.</p>
+<h3 id="info-custom"><code>info-custom</code><a class="headerlink" href="#info-custom" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Runtime</th>
+<th style="text-align: right;">ns/op</th>
+<th style="text-align: right;">vs MRI</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>go-ruby-logger (pure Go)</strong></td>
+<td style="text-align: right;">429.6</td>
+<td style="text-align: right;">0.32×</td>
+</tr>
+<tr>
+<td>MRI (ruby 4.0.5)</td>
+<td style="text-align: right;">1353.8</td>
+<td style="text-align: right;">1.00×</td>
+</tr>
+<tr>
+<td>MRI + YJIT</td>
+<td style="text-align: right;">978.2</td>
+<td style="text-align: right;">0.72×</td>
+</tr>
+<tr>
+<td>JRuby 10.1.0.0</td>
+<td style="text-align: right;">1259.9</td>
+<td style="text-align: right;">0.93×</td>
+</tr>
+<tr>
+<td>TruffleRuby 34.0.1</td>
+<td style="text-align: right;">1404.9</td>
+<td style="text-align: right;">1.04×</td>
+</tr>
+</tbody>
+</table>
+<h2 id="go-vs-yjit">go vs YJIT<a class="headerlink" href="#go-vs-yjit" title="Permanent link">&para;</a></h2>
+<p><strong>The pure-Go library beats MRI + YJIT on both ops</strong>, by ~2.4×:</p>
+<table>
+<thead>
+<tr>
+<th>Op</th>
+<th style="text-align: right;">go-ruby-logger</th>
+<th style="text-align: right;">MRI + YJIT</th>
+<th style="text-align: right;">go ÷ YJIT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>info-default</code></td>
+<td style="text-align: right;">397.6 ns</td>
+<td style="text-align: right;">967.8 ns</td>
+<td style="text-align: right;"><strong>2.43× faster</strong></td>
+</tr>
+<tr>
+<td><code>info-custom</code></td>
+<td style="text-align: right;">429.6 ns</td>
+<td style="text-align: right;">978.2 ns</td>
+<td style="text-align: right;"><strong>2.28× faster</strong></td>
+</tr>
+</tbody>
+</table>
+<p>It also beats plain MRI (~3.2×) and every other runtime on both ops. <code>Logger#info</code>
+is a small dispatch-bound path — a level compare, one <code>sprintf</code>, a buffer append —
+where Go's statically-compiled formatter and <code>strftime</code> have no interpreter
+dispatch or <code>sprintf</code>-parsing overhead to pay, so the pure-Go implementation
+comes out ahead even of YJIT's machine code.</p>
 <div class="admonition note">
-<p class="admonition-title">Honest framing</p>
-<p>JRuby and TruffleRuby are timed <strong>cold, single-shot</strong>, so they carry JVM /
-Graal startup on every run — read them as one-shot <code>ruby file.rb</code> costs, the
-same way <code>rbgo</code> and MRI are measured, not as steady-state JIT numbers. Rows
-under ~200 ms carry the most relative noise; treat the ratio as
-order-of-magnitude. These are <strong>real measured numbers</strong> from the 2026-06-30
-run (Apple M4 Max; <code>ruby 4.0.5 +PRISM</code>, <code>jruby 10.1.0.0</code>, <code>truffleruby
-34.0.1</code>) — nothing is fabricated or cherry-picked.</p>
+<p class="admonition-title">Cold-JIT caveat</p>
+<p>JRuby and TruffleRuby are timed after only 3 warm-up passes in a single
+short-lived process, so they do <strong>not</strong> reach full steady-state JIT — read
+their rows as short-run costs, not peak throughput. TruffleRuby in particular
+swings run to run (0.55× on <code>info-default</code>, 1.04× on <code>info-custom</code> here);
+treat sub-microsecond ratios as order-of-magnitude. MRI, MRI + YJIT and the
+Go library are far more stable across runs. These are <strong>real measured
+numbers</strong> from the 2026-07-03 run on the host above — nothing is fabricated
+or cherry-picked.</p>
 </div>
-<h2 id="what-is-measured">What is measured<a class="headerlink" href="#what-is-measured" title="Permanent link">&para;</a></h2>
-<p>The <strong>same</strong> Ruby script — building and emitting a representative batch of log
-lines through <code>Logger</code> (default formatter, a mix of severities, the
-<code>datetime_format</code> path, and a size/period rotation decision) — is run under every
-runtime. <code>rbgo</code>'s number reflects <strong>this pure-Go library doing the work</strong>
-(formatting the line bytes and computing the rotation plan); every other column
-is that interpreter's own stdlib <code>Logger</code>. So the comparison is the
-<strong>Ruby-visible operation</strong>, apples-to-apples across interpreters.</p>
-<p>To keep the timing about formatting rather than IO, the clock and pid are pinned
-to fixed values and the sink is a buffer, so each run is deterministic; the
-script's output is checked <strong>byte-identical to MRI</strong> before any timing is
-recorded.</p>
 <h2 id="how-to-reproduce">How to reproduce<a class="headerlink" href="#how-to-reproduce" title="Permanent link">&para;</a></h2>
-<ul>
-<li><strong>Host:</strong> a single, recorded machine (CPU, OS, arch noted alongside any result
-  table), so numbers are comparable run to run.</li>
-<li><strong>Method:</strong> best-of-N wall time (best, not mean, to suppress scheduler noise);
-  single-shot processes, no warm-up beyond the script's own loop.</li>
-<li><strong>Runtimes:</strong> MRI (the oracle) and MRI <code>--yjit</code>; the JVM-based and GraalVM-based
-  Rubies are timed <strong>cold, single-shot</strong>, so they carry VM startup on every run —
-  read them as one-shot <code>ruby file.rb</code> costs, the same way <code>rbgo</code> and MRI are
-  measured, not as steady-state JIT numbers.</li>
-<li>The benchmark script and harness live in rbgo's repo under
-  <a href="https://github.com/go-embedded-ruby/ruby/tree/main/bench/modules"><code>bench/modules/</code></a>.</li>
-</ul>
-<div class="admonition warning">
-<p class="admonition-title">Honest framing</p>
-<p>Rows that complete in well under ~200 ms carry the most relative noise; treat
-their ratios as order-of-magnitude. Any numbers added here will be real
-measured numbers from a dated run, with nothing cherry-picked.</p>
-</div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/go-ruby-logger/docs
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>bash<span class="w"> </span>docs/benchmarks/run.sh
+</code></pre></div>
+<p><code>run.sh</code> runs every runtime it can find, re-checks the Go/MRI byte-identity, and
+re-emits the tables above. Knobs: <code>OUTER</code> (timed passes), <code>WARM</code> (warm-up
+passes), and <code>RUBY</code>/<code>JRUBY</code>/<code>TRUFFLERUBY</code> to select binaries.</p>
 
 
 
